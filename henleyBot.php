@@ -1,6 +1,7 @@
 <?php
 
 require "vendor/abraham/twitteroauth/autoload.php";
+require 'lyrics.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
@@ -11,8 +12,9 @@ $accessTokenSecret = getenv('TWITTER_ACCESS_TOKEN_SECRET_HB'); // Access Token S
 
 $connection = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
-$status = $connection->post("statuses/update", array("status" => "I'm posting a tweet!"));
-$status_dump = var_dump($status);
-print("Status is: ($status_dump)");
+// $status = $connection->post("statuses/update", array("status" => "I'm posting a test tweet!"));
+// var_dump($status);
+$eoi_lyrics = Lyrics::$lyricsArray;
+var_dump($eoi_lyrics[0]);
 
 ?>
