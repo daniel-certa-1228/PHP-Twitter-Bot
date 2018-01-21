@@ -50,7 +50,7 @@
             43 => "And let your hair fall all around me...",
             44 => "Offer up your best defense...",
             45 => "But this is the end...",
-            46 => "This is the end of the innocence" 
+            46 => "This is the end of the innocence..." 
         );
     }
 
