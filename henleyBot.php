@@ -2,21 +2,22 @@
 
     require "vendor/abraham/twitteroauth/autoload.php";
     require 'lyrics.php';
-
     use Abraham\TwitterOAuth\TwitterOAuth;
 
     $eoi_lyrics = Lyrics::$lyricsArray;//get the lyrics from the Lyrics class
 
+    $dbopts = parse_url(getenv('DATABASE_URL'));
+    $dbname = ltrim($dbopts["path"],'/');
     //connect to dabase
-    $c = pg_connect("dbname=eoi_counter")
+    $c = pg_connect("host=$dbopts[host] port=$dbopts[port] dbname=$dbname user=$dbopts[user] password=$dbopts[pass]")
         or die("Could not connect: " . pg_last_error());
     $query = "SELECT counter FROM counter";
     $result = pg_query($query)
         or die("Query failed: " . pg_last_error());
     $count = pg_fetch_result($result,0,0);//get the current count from the database
 
-    // print("$count\n");
-
+    // print("$count\n"); //inspect the count if necessary
+    
     $consumerKey = getenv('TWITTER_CONSUMER_KEY_HB'); // Consumer Key
     $consumerSecret = getenv('TWITTER_CONSUMER_SECRET_HB'); // Consumer Secret
     $accessToken = getenv('TWITTER_ACCESS_TOKEN_HB'); // Access Token
@@ -30,7 +31,7 @@
 
     $count += 1;//increment the counter
 
-    // print("$count\n");
+    // print("$count\n"); //inspect the incremented count if necessary
 
     if ($count == count($eoi_lyrics)) {
         $set = pg_query("UPDATE counter SET counter = 0");
